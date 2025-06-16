@@ -1,17 +1,24 @@
+from tempfile import template
 from flask import Flask, request, jsonify
 from cipher.rsa import RSACipher
+from flask import Flask, render_template
+
 
 app = Flask(__name__)
 
 #RSA CIPHER ALGORITHM
 rsa_cipher = RSACipher()
 
-@app.route('/api/rsa/generate_keys', methods=['GET'])
+app = Flask(__name__)
+
+@app.route('/')
+
+@app.route('/api/ecc/generate_keys', methods=['GET'])
 def rsa_generate_keys():
     rsa_cipher.generate_keys()
     return jsonify({'message': 'Keys generated successfully'})
 
-@app.route('/api/rsa/encrypt', methods=['POST'])
+@app.route('/api/ecc/encrypt', methods=['POST'])
 def rsa_encrypt():
     data = request.json
     message = data['message']
@@ -27,7 +34,7 @@ def rsa_encrypt():
     encrypted_hex = encrypted_message.hex()
     return jsonify({'encrypted_message': encrypted_hex})
 
-@app.route('/api/rsa/decrypt', methods=['POST'])
+@app.route('/api/ecc/decrypt', methods=['POST'])
 def rsa_decrypt():
     data = request.json
     ciphertext_hex = data['ciphertext']
@@ -43,7 +50,7 @@ def rsa_decrypt():
     decrypted_message = rsa_cipher.decrypt(ciphertext, key)
     return jsonify({'decrypted_message': decrypted_message})
 
-@app.route('/api/rsa/sign', methods=['POST'])
+@app.route('/api/ecc/sign', methods=['POST'])
 def rsa_sign_message():
     data = request.json
     message = data['message']
@@ -52,7 +59,7 @@ def rsa_sign_message():
     signature_hex = signature.hex()
     return jsonify({'signature': signature_hex})
 
-@app.route('/api/rsa/verify', methods=['POST'])
+@app.route('/api/ecc/verify', methods=['POST'])
 def rsa_verify_signature():
     data = request.json
     message = data['message']

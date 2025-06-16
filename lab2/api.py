@@ -4,10 +4,14 @@ from cipher.vigenere import VigenereCipher
 from cipher.railfence import RailfenceCipher
 from cipher.playfair import PlayFairCipher
 from cipher.transposition import TranspositionCipher
+from flask import render_template
 app = Flask(__name__)
 
 #CAESAR CIPHER ALGORITHM
 ceasar_cipher = CaesarCipher()
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 @app.route("/api/caesar/encrypt", methods=["POST"])
 def ceasar_encrypt():
